@@ -18,20 +18,20 @@ impl TurboStream {
     {
         let element = TurboStreamElement {
             item: Some(item),
-            target: target.into(),
+            target: Some(target.into()),
             action: TurboStreamAction::Append,
         };
         Self::action(element)
     }
 
-    pub fn update<T>(target: &str, item: T) -> impl IntoResponse
+    pub fn prepend<T>(item: T, target: &str) -> impl IntoResponse
     where
         T: Display,
     {
         let element = TurboStreamElement {
             item: Some(item),
-            target: target.into(),
-            action: TurboStreamAction::Update,
+            target: Some(target.into()),
+            action: TurboStreamAction::Prepend,
         };
         Self::action(element)
     }
@@ -42,7 +42,7 @@ impl TurboStream {
     {
         let element = TurboStreamElement {
             item: Some(item),
-            target: target.into(),
+            target: Some(target.into()),
             action: TurboStreamAction::Replace,
         };
         Self::action(element)
@@ -55,12 +55,12 @@ impl TurboStream {
     {
         let element1 = TurboStreamElement {
             item: Some(item1),
-            target: target1.into(),
+            target: Some(target1.into()),
             action: TurboStreamAction::Replace,
         };
         let element2 = TurboStreamElement {
             item: Some(item2),
-            target: target2.into(),
+            target: Some(target2.into()),
             action: TurboStreamAction::Replace,
         };
         Self::action_2(element1, element2)
@@ -74,27 +74,75 @@ impl TurboStream {
     {
         let element1 = TurboStreamElement {
             item: Some(item1),
-            target: target1.into(),
+            target: Some(target1.into()),
             action: TurboStreamAction::Replace,
         };
         let element2 = TurboStreamElement {
             item: Some(item2),
-            target: target2.into(),
+            target: Some(target2.into()),
             action: TurboStreamAction::Replace,
         };
         let element3 = TurboStreamElement {
             item: Some(item3),
-            target: target3.into(),
+            target: Some(target3.into()),
             action: TurboStreamAction::Replace,
         };
         Self::action_3(element1, element2, element3)
     }
 
+    pub fn update<T>(target: &str, item: T) -> impl IntoResponse
+    where
+        T: Display,
+    {
+        let element = TurboStreamElement {
+            item: Some(item),
+            target: Some(target.into()),
+            action: TurboStreamAction::Update,
+        };
+        Self::action(element)
+    }
+
     pub fn remove(target: &str) -> impl IntoResponse {
         let element = TurboStreamElement::<String> {
             item: None,
-            target: target.into(),
+            target: Some(target.into()),
             action: TurboStreamAction::Remove,
+        };
+        Self::action(element)
+    }
+
+    pub fn before<T>(target: &str, item: T) -> impl IntoResponse
+    where
+        T: Display,
+    {
+        let element = TurboStreamElement {
+            item: Some(item),
+            target: Some(target.into()),
+            action: TurboStreamAction::Before,
+        };
+        Self::action(element)
+    }
+
+    pub fn after<T>(target: &str, item: T) -> impl IntoResponse
+    where
+        T: Display,
+    {
+        let element = TurboStreamElement {
+            item: Some(item),
+            target: Some(target.into()),
+            action: TurboStreamAction::After,
+        };
+        Self::action(element)
+    }
+
+    pub fn refresh<T>() -> impl IntoResponse
+    where
+        T: Display,
+    {
+        let element = TurboStreamElement::<String> {
+            item: None,
+            target: None,
+            action: TurboStreamAction::Refresh,
         };
         Self::action(element)
     }
@@ -112,17 +160,17 @@ impl TurboStream {
     {
         let element1 = TurboStreamElement {
             item: Some(item_replace),
-            target: target_replace.into(),
+            target: Some(target_replace.into()),
             action: TurboStreamAction::Replace,
         };
         let element2 = TurboStreamElement::<String> {
             item: None,
-            target: target_remove.into(),
+            target: Some(target_remove.into()),
             action: TurboStreamAction::Remove,
         };
         let element3 = TurboStreamElement {
             item: Some(item_append),
-            target: target_append.into(),
+            target: Some(target_append.into()),
             action: TurboStreamAction::Append,
         };
         Self::action_3(element1, element2, element3)
@@ -134,12 +182,12 @@ impl TurboStream {
     {
         let element1 = TurboStreamElement::<String> {
             item: None,
-            target: target_remove.into(),
+            target: Some(target_remove.into()),
             action: TurboStreamAction::Remove,
         };
         let element2 = TurboStreamElement {
             item: Some(item_append),
-            target: target_append.into(),
+            target: Some(target_append.into()),
             action: TurboStreamAction::Append,
         };
         Self::action_2(element1, element2)
@@ -152,12 +200,12 @@ impl TurboStream {
     {
         let element1 = TurboStreamElement {
             item: Some(item_replace),
-            target: target_replace.into(),
+            target: Some(target_replace.into()),
             action: TurboStreamAction::Replace,
         };
         let element2 = TurboStreamElement {
             item: Some(item_append),
-            target: target_append.into(),
+            target: Some(target_append.into()),
             action: TurboStreamAction::Append,
         };
         Self::action_2(element1, element2)
@@ -169,12 +217,12 @@ impl TurboStream {
     {
         let element1 = TurboStreamElement {
             item: Some(item_replace),
-            target: target_replace.into(),
+            target: Some(target_replace.into()),
             action: TurboStreamAction::Replace,
         };
         let element2 = TurboStreamElement::<String> {
             item: None,
-            target: target_remove.into(),
+            target: Some(target_remove.into()),
             action: TurboStreamAction::Remove,
         };
         Self::action_2(element1, element2)
@@ -193,17 +241,17 @@ impl TurboStream {
     {
         let element1 = TurboStreamElement::<String> {
             item: None,
-            target: target_remove.into(),
+            target: Some(target_remove.into()),
             action: TurboStreamAction::Remove,
         };
         let element2 = TurboStreamElement {
             item: Some(item_replace),
-            target: target_replace.into(),
+            target: Some(target_replace.into()),
             action: TurboStreamAction::Replace,
         };
         let element3 = TurboStreamElement {
             item: Some(item_append),
-            target: target_append.into(),
+            target: Some(target_append.into()),
             action: TurboStreamAction::Append,
         };
         Self::action_3(element1, element2, element3)
@@ -246,7 +294,7 @@ pub struct TurboStreamElement<T>
 where
     T: Display,
 {
-    pub target: String,
+    pub target: Option<String>,
     pub action: TurboStreamAction,
     pub item: Option<T>,
 }
@@ -278,9 +326,13 @@ where
 #[derive(Debug)]
 pub enum TurboStreamAction {
     Append,
+    Prepend,
     Update,
     Replace,
     Remove,
+    Before,
+    After,
+    Refresh,
 }
 
 impl Display for TurboStreamAction {
