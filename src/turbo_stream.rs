@@ -135,9 +135,7 @@ impl TurboStream {
         Self::action(element)
     }
 
-    pub fn refresh<T>() -> impl IntoResponse
-    where
-        T: Display,
+    pub fn refresh() -> impl IntoResponse
     {
         let element = TurboStreamElement::<String> {
             item: None,
