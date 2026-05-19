@@ -145,6 +145,18 @@ impl TurboStream {
         Self::action(element)
     }
 
+    pub fn event<T>(target: &str, item: T) -> impl IntoResponse
+    where
+        T: Display,
+    {
+        let element = TurboStreamElement {
+            item: Some(item),
+            target: Some(target.into()),
+            action: TurboStreamAction::Event,
+        };
+        Self::action(element)
+    }
+
     pub fn replace_remove_and_append<T, U>(
         target_replace: &str,
         item_replace: T,
@@ -331,6 +343,7 @@ pub enum TurboStreamAction {
     Before,
     After,
     Refresh,
+    Event,
 }
 
 impl Display for TurboStreamAction {

@@ -137,6 +137,19 @@ impl TurboStreamBuilder {
         Ok(self)
     }
 
+    pub fn event<T>(mut self, target: &str, item: &T) -> Result<Self, askama::Error>
+    where
+        T: Display,
+    {
+        let element = TurboStreamElement {
+            item: Some(item),
+            target: Some(target.into()),
+            action: TurboStreamAction::Event,
+        };
+        self.elements.push(element.render()?);
+        Ok(self)
+    }
+
     pub fn build(&self) -> impl IntoResponse {
         let html = self.elements.join("\n");
         TurboPage::new(html).into_response()
