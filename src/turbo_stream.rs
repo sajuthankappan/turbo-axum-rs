@@ -1,6 +1,7 @@
 use std::fmt::Display;
 
 use askama::Template;
+use askama_web::WebTemplate;
 use axum::response::IntoResponse;
 
 use crate::{turbo_page::TurboPage, turbo_stream_builder::TurboStreamBuilder};
@@ -298,7 +299,7 @@ impl TurboStream {
     }
 }
 
-#[derive(Template)]
+#[derive(Template, WebTemplate)]
 #[template(path = "turbo-stream-element.html")]
 pub struct TurboStreamElement<T>
 where
@@ -309,7 +310,7 @@ where
     pub item: Option<T>,
 }
 
-#[derive(Template)]
+#[derive(Template, WebTemplate)]
 #[template(path = "turbo-stream-two-elements.html")]
 pub struct TurboStreamTwoElements<T, U>
 where
@@ -320,7 +321,7 @@ where
     pub element2: TurboStreamElement<U>,
 }
 
-#[derive(Template)]
+#[derive(Template, WebTemplate)]
 #[template(path = "turbo-stream-three-elements.html")]
 pub struct TurboStreamThreeElements<T, U, V>
 where

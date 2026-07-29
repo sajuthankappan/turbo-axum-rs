@@ -1,10 +1,11 @@
 use std::fmt::Display;
 
 use askama::Template;
+use askama_web::WebTemplate;
 
 use crate::filters;
 
-#[derive(Template)]
+#[derive(Template, WebTemplate)]
 #[template(path = "turbo-frame.html")]
 pub struct TurboFrame<T>
 where

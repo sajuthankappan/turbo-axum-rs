@@ -1,6 +1,9 @@
 use std::fmt::Display;
 
-pub fn optional_attribute<T>(s: &Option<T>, attribute_name: &str) -> ::askama::Result<String>
+use askama::Values;
+
+#[askama::filter_fn]
+pub fn optional_attribute<T>(s: &Option<T>, _: &dyn Values, attribute_name: &str) -> ::askama::Result<String>
 where
     T: Display,
 {
