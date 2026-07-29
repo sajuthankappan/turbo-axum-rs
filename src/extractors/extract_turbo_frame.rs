@@ -1,4 +1,3 @@
-use async_trait::async_trait;
 use axum::{
     extract::FromRequestParts,
     http::{request::Parts, StatusCode},
@@ -6,7 +5,6 @@ use axum::{
 
 pub struct ExtractTurboFrame(pub Option<String>);
 
-#[async_trait]
 impl<S> FromRequestParts<S> for ExtractTurboFrame
 where
     S: Send + Sync,
