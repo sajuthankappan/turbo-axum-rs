@@ -13,7 +13,7 @@ impl TurboStream {
         TurboStreamBuilder::new()
     }
 
-    pub fn append<T>(item: T, target: &str) -> impl IntoResponse + use<T>
+    pub fn append<T>(target: &str, item: T) -> impl IntoResponse + use<T>
     where
         T: Display,
     {
@@ -25,7 +25,7 @@ impl TurboStream {
         Self::action(element)
     }
 
-    pub fn prepend<T>(item: T, target: &str) -> impl IntoResponse + use<T>
+    pub fn prepend<T>(target: &str, item: T) -> impl IntoResponse + use<T>
     where
         T: Display,
     {
@@ -169,6 +169,10 @@ impl TurboStream {
         Self::action(element)
     }
 
+    #[deprecated(
+        since = "0.3.0",
+        note = "use `TurboStream::builder().replace(..)?.remove(..)?.append(..)?.build()`"
+    )]
     pub fn replace_remove_and_append<T, U>(
         target_replace: &str,
         item_replace: T,
@@ -198,6 +202,10 @@ impl TurboStream {
         Self::action_3(element1, element2, element3)
     }
 
+    #[deprecated(
+        since = "0.3.0",
+        note = "use `TurboStream::builder().remove(..)?.append(..)?.build()`"
+    )]
     pub fn remove_and_append<T>(
         target_remove: &str,
         item_append: T,
@@ -219,6 +227,10 @@ impl TurboStream {
         Self::action_2(element1, element2)
     }
 
+    #[deprecated(
+        since = "0.3.0",
+        note = "use `TurboStream::builder().replace(..)?.append(..)?.build()`"
+    )]
     pub fn replace_and_append<T, U>(
         item_replace: T,
         target_replace: &str,
@@ -242,6 +254,10 @@ impl TurboStream {
         Self::action_2(element1, element2)
     }
 
+    #[deprecated(
+        since = "0.3.0",
+        note = "use `TurboStream::builder().replace(..)?.remove(..)?.build()`"
+    )]
     pub fn replace_and_remove<T>(
         item_replace: T,
         target_replace: &str,
@@ -263,6 +279,10 @@ impl TurboStream {
         Self::action_2(element1, element2)
     }
 
+    #[deprecated(
+        since = "0.3.0",
+        note = "use `TurboStream::builder().remove(..)?.replace(..)?.append(..)?.build()`"
+    )]
     pub fn remove_replace_and_append<T, U>(
         target_remove: &str,
         item_replace: T,

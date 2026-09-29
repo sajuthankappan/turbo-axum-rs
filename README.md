@@ -34,7 +34,7 @@ use turbo_axum::turbo_stream::TurboStream;
 
 async fn create_todo() -> impl IntoResponse {
     let todo = TodoItem { title: "Buy milk".into() }; // any askama template
-    TurboStream::append(todo, "todos")
+    TurboStream::append("todos", todo)
 }
 ```
 

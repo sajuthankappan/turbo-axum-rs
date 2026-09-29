@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-09-29
+
 ### Fixed
 
 - turbo-stream content is no longer re-indented with the `indent` filter, which changed whitespace inside `<pre>` and `<textarea>` elements
@@ -11,8 +13,13 @@
 
 ### Changed
 
+- **Breaking:** `TurboStream::append` and `TurboStream::prepend` now take `(target, item)`, like every other action and the builder. Calls with a template or `String` item fail to compile and point to the fix, but calls whose item is a `&str` or `&String` (e.g. `append(&html, "list")`) still compile with the arguments swapped, so search for these calls when upgrading
 - upgrade to Rust edition 2024; minimum supported Rust version is 1.88 (required by askama 0.16)
 - the crate's templates no longer use the `optional_attribute` filter; it remains public for existing users
+
+### Deprecated
+
+- `TurboStream::remove_and_append`, `replace_and_append`, `replace_and_remove`, `replace_remove_and_append` and `remove_replace_and_append`; use `TurboStream::builder()` instead. Their argument order is unchanged
 
 ### Added
 

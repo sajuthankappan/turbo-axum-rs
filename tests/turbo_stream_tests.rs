@@ -12,7 +12,7 @@ struct TodoItem {
 
 #[tokio::test]
 async fn append_renders_full_markup() {
-    let body = read_turbo_stream(TurboStream::append("<p>hi</p>", "list")).await;
+    let body = read_turbo_stream(TurboStream::append("list", "<p>hi</p>")).await;
     assert_eq!(
         body,
         "<turbo-stream action=\"append\" target=\"list\">\n  <template>\n    <p>hi</p>\n  </template>\n</turbo-stream>"
@@ -23,11 +23,11 @@ async fn append_renders_full_markup() {
 async fn single_actions_with_item() {
     let cases = [
         (
-            read_turbo_stream(TurboStream::append("<p>x</p>", "t")).await,
+            read_turbo_stream(TurboStream::append("t", "<p>x</p>")).await,
             "append",
         ),
         (
-            read_turbo_stream(TurboStream::prepend("<p>x</p>", "t")).await,
+            read_turbo_stream(TurboStream::prepend("t", "<p>x</p>")).await,
             "prepend",
         ),
         (
@@ -77,7 +77,7 @@ async fn askama_template_as_item() {
     let item = TodoItem {
         title: "Buy milk".into(),
     };
-    let body = read_turbo_stream(TurboStream::append(item, "todos")).await;
+    let body = read_turbo_stream(TurboStream::append("todos", item)).await;
     assert_eq!(
         body,
         stream("append", Some("todos"), Some("<li>Buy milk</li>"))
@@ -132,6 +132,7 @@ async fn replace_2_and_replace_3() {
 }
 
 #[tokio::test]
+#[allow(deprecated)]
 async fn combined_actions() {
     let body = read_turbo_stream(TurboStream::remove_and_append("old", "<i>new</i>", "list")).await;
     assert_eq!(
