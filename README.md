@@ -1,4 +1,6 @@
-# turbo-axum
+# turbo-axum &emsp; [![CI Status]][actions]
+[CI Status]: https://github.com/sajuthankappan/turbo-axum-rs/actions/workflows/ci.yml/badge.svg?branch=main
+[actions]: https://github.com/sajuthankappan/turbo-axum-rs/actions/workflows/ci.yml
 
 **[Hotwire Turbo](https://turbo.hotwired.dev/) helpers for [axum](https://github.com/tokio-rs/axum)**
 
@@ -19,7 +21,7 @@ The crate is not on crates.io yet. Add it as a git dependency:
 turbo-axum = { git = "https://github.com/sajuthankappan/turbo-axum-rs" }
 ```
 
-It targets axum 0.8 and askama 0.16, and requires Rust 1.85+.
+It targets axum 0.8 and askama 0.16, and requires Rust 1.88+.
 
 ## Usage example
 

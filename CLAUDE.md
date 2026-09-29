@@ -17,7 +17,7 @@ cargo test                 # no tests exist yet
 cargo test <name>          # run a single test by name filter
 ```
 
-Edition 2024, `rust-version = "1.85"`.
+Edition 2024, `rust-version = "1.88"` (required by askama 0.16).
 
 ## What this is
 
