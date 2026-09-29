@@ -1,7 +1,7 @@
-<turbo-stream action="{{ action }}" {%- if let Some(target) = target %}target="{{ target }}"{% endif %}>
+<turbo-stream action="{{ action }}" {%- if let Some(target) = target %} target="{{ target }}"{% endif %}>
   {%- if let Some(item) = item %}
   <template>
-    {{ item|indent(4)|safe }}
+    {{ item|safe }}
   </template>
   {%- endif %}
 </turbo-stream>
