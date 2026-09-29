@@ -1,5 +1,5 @@
 use axum::{
-    http::{header, HeaderMap},
+    http::{HeaderMap, header},
     response::{IntoResponse, Response},
 };
 
@@ -25,7 +25,10 @@ where
 {
     fn into_response(self) -> Response {
         let mut headers = HeaderMap::new();
-        headers.insert(header::CONTENT_TYPE, "text/vnd.turbo-stream.html".parse().unwrap());
+        headers.insert(
+            header::CONTENT_TYPE,
+            "text/vnd.turbo-stream.html".parse().unwrap(),
+        );
         (headers, self.response).into_response()
     }
 }

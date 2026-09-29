@@ -1,6 +1,6 @@
 use axum::{
     extract::FromRequestParts,
-    http::{request::Parts, StatusCode},
+    http::{StatusCode, request::Parts},
 };
 
 pub struct AcceptTurboStream(pub bool);
@@ -15,11 +15,11 @@ where
         let accept_header = parts.headers.get("accept");
 
         let Some(accept_header) = accept_header else {
-            return  Ok(AcceptTurboStream(false));
+            return Ok(AcceptTurboStream(false));
         };
 
         let Ok(accept_header) = accept_header.to_str() else {
-            return  Ok(AcceptTurboStream(false));
+            return Ok(AcceptTurboStream(false));
         };
 
         if !accept_header.contains("text/vnd.turbo-stream.html") {

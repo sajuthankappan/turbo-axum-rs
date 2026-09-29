@@ -1,6 +1,6 @@
 use axum::{
     extract::FromRequestParts,
-    http::{request::Parts, StatusCode},
+    http::{StatusCode, request::Parts},
 };
 
 pub struct ExtractTurboFrame(pub Option<String>);
@@ -18,8 +18,8 @@ where
             return Ok(ExtractTurboFrame(None));
         };
 
-        let Ok(turbo_frame_header) = turbo_frame_header.to_str()  else {
-            return  Ok(ExtractTurboFrame(None));
+        let Ok(turbo_frame_header) = turbo_frame_header.to_str() else {
+            return Ok(ExtractTurboFrame(None));
         };
 
         Ok(ExtractTurboFrame(Some(turbo_frame_header.into())))

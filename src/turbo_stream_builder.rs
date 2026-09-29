@@ -63,7 +63,11 @@ impl TurboStreamBuilder {
         Ok(self)
     }
 
-    pub fn replace_optional<T>(mut self, target: &str, item: &Option<T>) -> Result<Self, askama::Error>
+    pub fn replace_optional<T>(
+        mut self,
+        target: &str,
+        item: &Option<T>,
+    ) -> Result<Self, askama::Error>
     where
         T: Display,
     {

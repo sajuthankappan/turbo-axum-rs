@@ -49,7 +49,12 @@ impl TurboStream {
         Self::action(element)
     }
 
-    pub fn replace_2<T, U>(target1: &str, item1: T, target2: &str, item2: U) -> impl IntoResponse + use<T, U>
+    pub fn replace_2<T, U>(
+        target1: &str,
+        item1: T,
+        target2: &str,
+        item2: U,
+    ) -> impl IntoResponse + use<T, U>
     where
         T: Display,
         U: Display,
@@ -67,7 +72,14 @@ impl TurboStream {
         Self::action_2(element1, element2)
     }
 
-    pub fn replace_3<T, U, V>(target1: &str, item1: T, target2: &str, item2: U, target3: &str, item3: V) -> impl IntoResponse + use<T, U, V>
+    pub fn replace_3<T, U, V>(
+        target1: &str,
+        item1: T,
+        target2: &str,
+        item2: U,
+        target3: &str,
+        item3: V,
+    ) -> impl IntoResponse + use<T, U, V>
     where
         T: Display,
         U: Display,
@@ -136,8 +148,7 @@ impl TurboStream {
         Self::action(element)
     }
 
-    pub fn refresh() -> impl IntoResponse
-    {
+    pub fn refresh() -> impl IntoResponse {
         let element = TurboStreamElement::<String> {
             item: None,
             target: None,
@@ -187,7 +198,11 @@ impl TurboStream {
         Self::action_3(element1, element2, element3)
     }
 
-    pub fn remove_and_append<T>(target_remove: &str, item_append: T, target_append: &str) -> impl IntoResponse + use<T>
+    pub fn remove_and_append<T>(
+        target_remove: &str,
+        item_append: T,
+        target_append: &str,
+    ) -> impl IntoResponse + use<T>
     where
         T: Display,
     {
@@ -204,7 +219,12 @@ impl TurboStream {
         Self::action_2(element1, element2)
     }
 
-    pub fn replace_and_append<T, U>(item_replace: T, target_replace: &str, item_append: U, target_append: &str) -> impl IntoResponse + use<T, U>
+    pub fn replace_and_append<T, U>(
+        item_replace: T,
+        target_replace: &str,
+        item_append: U,
+        target_append: &str,
+    ) -> impl IntoResponse + use<T, U>
     where
         T: Display,
         U: Display,
@@ -222,7 +242,11 @@ impl TurboStream {
         Self::action_2(element1, element2)
     }
 
-    pub fn replace_and_remove<T>(item_replace: T, target_replace: &str, target_remove: &str) -> impl IntoResponse + use<T>
+    pub fn replace_and_remove<T>(
+        item_replace: T,
+        target_replace: &str,
+        target_remove: &str,
+    ) -> impl IntoResponse + use<T>
     where
         T: Display,
     {
@@ -275,7 +299,10 @@ impl TurboStream {
         TurboPage::new(element).into_response()
     }
 
-    pub fn action_2<T, U>(element1: TurboStreamElement<T>, element2: TurboStreamElement<U>) -> impl IntoResponse
+    pub fn action_2<T, U>(
+        element1: TurboStreamElement<T>,
+        element2: TurboStreamElement<U>,
+    ) -> impl IntoResponse
     where
         T: Display,
         U: Display,
@@ -284,7 +311,11 @@ impl TurboStream {
         TurboPage::new(element).into_response()
     }
 
-    pub fn action_3<T, U, V>(element1: TurboStreamElement<T>, element2: TurboStreamElement<U>, element3: TurboStreamElement<V>) -> impl IntoResponse
+    pub fn action_3<T, U, V>(
+        element1: TurboStreamElement<T>,
+        element2: TurboStreamElement<U>,
+        element3: TurboStreamElement<V>,
+    ) -> impl IntoResponse
     where
         T: Display,
         U: Display,

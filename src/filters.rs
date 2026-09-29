@@ -3,7 +3,11 @@ use std::fmt::Display;
 use askama::Values;
 
 #[askama::filter_fn]
-pub fn optional_attribute<T>(s: &Option<T>, _: &dyn Values, attribute_name: &str) -> ::askama::Result<String>
+pub fn optional_attribute<T>(
+    s: &Option<T>,
+    _: &dyn Values,
+    attribute_name: &str,
+) -> ::askama::Result<String>
 where
     T: Display,
 {
