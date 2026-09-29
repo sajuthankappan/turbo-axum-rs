@@ -16,3 +16,6 @@ exclude = [".github/", "CLAUDE.md"]
 askama = { version = "0.16.0" }
 askama_web = { version = "0.16.0", features = ["axum-0.8"] }
 axum = { version = "0.8", features = ["macros"] }
+
+[dev-dependencies]
+tokio = { version = "1", features = ["macros", "rt"] }

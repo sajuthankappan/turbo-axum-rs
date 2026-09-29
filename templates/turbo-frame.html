@@ -1,3 +1,3 @@
-<turbo-frame id="{{ element_id }}" {{ target|optional_attribute("target")|safe }}>
+<turbo-frame id="{{ element_id }}" {%- if let Some(target) = target %} target="{{ target }}"{% endif %}>
   {{ content|safe }}
 </turbo-frame>

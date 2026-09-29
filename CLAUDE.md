@@ -13,7 +13,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 cargo build --all-targets
 cargo clippy --all-targets
 cargo fmt                  # rustfmt style edition 2024
-cargo test                 # no tests exist yet
+cargo test                 # integration tests in tests/, one file per module
 cargo test <name>          # run a single test by name filter
 ```
 
@@ -32,7 +32,7 @@ Edition 2024, `rust-version = "1.88"` (required by askama 0.16).
   - **`TurboStreamBuilder`** (`TurboStream::builder()`) renders each element to a `String` right away. That supports any number of elements, but every step returns `Result<Self, askama::Error>`. `build()` joins the rendered elements and wraps them in `TurboPage`.
   - When adding a new action, add it to both APIs.
 - **`TurboStreamAction`**: `Display` lowercases the `Debug` name, so a variant's name must match the Turbo action name exactly (e.g. `Before` → `before`).
-- **`TurboFrame<T>`** (`turbo_frame.rs`) renders `<turbo-frame id=… target=…>` and uses the custom `optional_attribute` askama filter from `filters.rs`. askama finds the filter through the `use crate::filters;` import in the module that declares the template.
+- **`TurboFrame<T>`** (`turbo_frame.rs`) renders `<turbo-frame id=… target=…>`. `filters.rs` has a public `optional_attribute` askama filter; the crate's own templates no longer use it (they use `{%- if let … %}` so attributes are escaped), but it stays for backward compatibility. A template that uses a custom filter needs `use crate::filters;` in the module that declares it.
 - **Extractors** (`src/extractors/`): `AcceptTurboStream(bool)` checks the `Accept` header for `text/vnd.turbo-stream.html`, and `ExtractTurboFrame(Option<String>)` reads the `Turbo-Frame` request header. Neither one ever rejects a request.
 - Item/content values are inserted with `|safe` (not escaped). Callers pass HTML that is already rendered, usually another askama template.
 - Public fns that return `impl IntoResponse` use explicit `+ use<T, …>` so the result doesn't capture the lifetimes of `&str` arguments. Keep that pattern in new fns, or edition 2024 will make the returned value borrow from the arguments.
