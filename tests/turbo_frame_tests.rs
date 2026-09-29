@@ -2,7 +2,7 @@ mod common;
 
 use askama::Template;
 use common::read_response;
-use turbo_axum::{turbo_frame::TurboFrame, turbo_page::TurboPage};
+use turbo_axum::{turbo_frame::TurboFrame, turbo_stream_response::TurboStreamResponse};
 
 #[test]
 fn frame_without_target() {
@@ -48,8 +48,8 @@ async fn frame_response_is_html() {
 }
 
 #[tokio::test]
-async fn turbo_page_sets_turbo_stream_content_type() {
-    let (content_type, body) = read_response(TurboPage::new("<p>x</p>")).await;
+async fn turbo_stream_response_sets_content_type() {
+    let (content_type, body) = read_response(TurboStreamResponse::new("<p>x</p>")).await;
     assert_eq!(
         content_type.as_deref(),
         Some(common::TURBO_STREAM_CONTENT_TYPE)

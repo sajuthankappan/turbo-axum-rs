@@ -8,17 +8,14 @@ use turbo_axum::extractors::{
 
 async fn accept_turbo_stream(headers: &[(&str, &str)]) -> bool {
     let mut parts = request_parts(headers);
-    let AcceptTurboStream(accepts) = AcceptTurboStream::from_request_parts(&mut parts, &())
-        .await
-        .unwrap();
+    let Ok(AcceptTurboStream(accepts)) =
+        AcceptTurboStream::from_request_parts(&mut parts, &()).await;
     accepts
 }
 
 async fn extract_turbo_frame(headers: &[(&str, &str)]) -> Option<String> {
     let mut parts = request_parts(headers);
-    let ExtractTurboFrame(frame) = ExtractTurboFrame::from_request_parts(&mut parts, &())
-        .await
-        .unwrap();
+    let Ok(ExtractTurboFrame(frame)) = ExtractTurboFrame::from_request_parts(&mut parts, &()).await;
     frame
 }
 

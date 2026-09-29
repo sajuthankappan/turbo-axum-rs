@@ -105,6 +105,7 @@ async fn multiline_item_is_not_reindented() {
 }
 
 #[tokio::test]
+#[allow(deprecated)]
 async fn replace_2_and_replace_3() {
     let body = read_turbo_stream(TurboStream::replace_2("a", "<i>1</i>", "b", "<i>2</i>")).await;
     assert_eq!(

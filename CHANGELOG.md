@@ -4,6 +4,8 @@
 
 ## [0.3.0] - 2026-09-29
 
+First release published on crates.io.
+
 ### Fixed
 
 - turbo-stream content is no longer re-indented with the `indent` filter, which changed whitespace inside `<pre>` and `<textarea>` elements
@@ -14,18 +16,24 @@
 ### Changed
 
 - **Breaking:** `TurboStream::append` and `TurboStream::prepend` now take `(target, item)`, like every other action and the builder. Calls with a template or `String` item fail to compile and point to the fix, but calls whose item is a `&str` or `&String` (e.g. `append(&html, "list")`) still compile with the arguments swapped, so search for these calls when upgrading
+- **Breaking:** the `AcceptTurboStream` and `ExtractTurboFrame` extractors now have `Rejection = Infallible`, since they never reject. Only code that names the old `(StatusCode, &str)` rejection type is affected
+- `TurboPage` is renamed to `TurboStreamResponse`, and the `turbo_page` module to `turbo_stream_response`. The old names remain as deprecated aliases
 - upgrade to Rust edition 2024; minimum supported Rust version is 1.88 (required by askama 0.16)
 - the crate's templates no longer use the `optional_attribute` filter; it remains public for existing users
 
 ### Deprecated
 
-- `TurboStream::remove_and_append`, `replace_and_append`, `replace_and_remove`, `replace_remove_and_append` and `remove_replace_and_append`; use `TurboStream::builder()` instead. Their argument order is unchanged
+- `TurboStream::replace_2`, `replace_3`, `remove_and_append`, `replace_and_append`, `replace_and_remove`, `replace_remove_and_append` and `remove_replace_and_append`; use `TurboStream::builder()` instead. Their argument order is unchanged
+- `turbo_page::TurboPage`; use `turbo_stream_response::TurboStreamResponse`
 
 ### Added
 
 - README, `LICENSE-MIT` and `LICENSE-APACHE` files (dual MIT/Apache-2.0), and package metadata
-- GitHub Actions CI: fmt, clippy, tests, MSRV check
+- GitHub Actions CI: fmt, clippy, docs, tests, MSRV check, and a weekly test against the latest dependency versions
+- `Cargo.lock` is now committed
 - integration tests
+- API documentation for all public items, with examples
+- crates.io keywords and categories
 
 ## [0.2.0] - 2026-07-29
 

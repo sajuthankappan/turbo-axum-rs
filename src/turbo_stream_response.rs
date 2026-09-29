@@ -1,25 +1,30 @@
+//! The Turbo Stream response type.
+
 use axum::{
     http::{HeaderMap, header},
     response::{IntoResponse, Response},
 };
 
-pub struct TurboPage<T>
+/// Wraps a response and sets its content type to `text/vnd.turbo-stream.html`.
+pub struct TurboStreamResponse<T>
 where
     T: IntoResponse,
 {
+    /// The wrapped response.
     pub response: T,
 }
 
-impl<T> TurboPage<T>
+impl<T> TurboStreamResponse<T>
 where
     T: IntoResponse,
 {
+    /// Wraps `response`.
     pub fn new(response: T) -> Self {
         Self { response }
     }
 }
 
-impl<T> IntoResponse for TurboPage<T>
+impl<T> IntoResponse for TurboStreamResponse<T>
 where
     T: IntoResponse,
 {

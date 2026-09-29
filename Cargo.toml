@@ -8,6 +8,8 @@ description = "Hotwire Turbo helpers for axum"
 homepage = "https://github.com/sajuthankappan/turbo-axum-rs"
 repository = "https://github.com/sajuthankappan/turbo-axum-rs"
 readme = "README.md"
+keywords = ["hotwire", "turbo", "axum", "askama", "html"]
+categories = ["web-programming::http-server", "template-engine"]
 exclude = [".github/", "CLAUDE.md"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html

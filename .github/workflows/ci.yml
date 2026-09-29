@@ -29,6 +29,16 @@ jobs:
       - uses: Swatinem/rust-cache@v2
       - run: cargo clippy --all-targets -- -D warnings
 
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo doc --no-deps
+        env:
+          RUSTDOCFLAGS: -D warnings
+
   test:
     runs-on: ubuntu-latest
     steps:

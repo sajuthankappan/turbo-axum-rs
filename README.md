@@ -1,4 +1,8 @@
-# turbo-axum &emsp; [![CI Status]][actions]
+# turbo-axum &emsp; [![Latest Version]][crates.io] [![Docs]][docs.rs] [![CI Status]][actions]
+[Latest Version]: https://img.shields.io/crates/v/turbo-axum.svg
+[crates.io]: https://crates.io/crates/turbo-axum
+[Docs]: https://docs.rs/turbo-axum/badge.svg
+[docs.rs]: https://docs.rs/turbo-axum
 [CI Status]: https://github.com/sajuthankappan/turbo-axum-rs/actions/workflows/ci.yml/badge.svg?branch=main
 [actions]: https://github.com/sajuthankappan/turbo-axum-rs/actions/workflows/ci.yml
 
@@ -14,11 +18,9 @@
 
 ## Installation
 
-The crate is not on crates.io yet. Add it as a git dependency:
-
 ```toml
 [dependencies]
-turbo-axum = { git = "https://github.com/sajuthankappan/turbo-axum-rs" }
+turbo-axum = "0.3"
 ```
 
 It targets axum 0.8 and askama 0.16, and requires Rust 1.88+.

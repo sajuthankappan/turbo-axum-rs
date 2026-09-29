@@ -1,18 +1,29 @@
+//! Turbo Stream responses.
+
 use std::fmt::Display;
 
 use askama::Template;
 use askama_web::WebTemplate;
 use axum::response::IntoResponse;
 
-use crate::{turbo_page::TurboPage, turbo_stream_builder::TurboStreamBuilder};
+use crate::{turbo_stream_builder::TurboStreamBuilder, turbo_stream_response::TurboStreamResponse};
 
+/// Functions that build [Turbo Stream](https://turbo.hotwired.dev/handbook/streams) responses.
+///
+/// Each function returns a response with the `text/vnd.turbo-stream.html` content type.
+/// Items are any [`Display`] value, usually an askama template, and are inserted without
+/// HTML escaping, so pass already-rendered HTML. Targets are element IDs and are escaped.
+///
+/// Arguments are always `(target, item)`. To send more than one action, use [`TurboStream::builder`].
 pub struct TurboStream {}
 
 impl TurboStream {
+    /// Starts a [`TurboStreamBuilder`] for a response with any number of actions.
     pub fn builder() -> TurboStreamBuilder {
         TurboStreamBuilder::new()
     }
 
+    /// Appends `item` to the element with ID `target`.
     pub fn append<T>(target: &str, item: T) -> impl IntoResponse + use<T>
     where
         T: Display,
@@ -25,6 +36,7 @@ impl TurboStream {
         Self::action(element)
     }
 
+    /// Prepends `item` to the element with ID `target`.
     pub fn prepend<T>(target: &str, item: T) -> impl IntoResponse + use<T>
     where
         T: Display,
@@ -37,6 +49,7 @@ impl TurboStream {
         Self::action(element)
     }
 
+    /// Replaces the element with ID `target` with `item`.
     pub fn replace<T>(target: &str, item: T) -> impl IntoResponse + use<T>
     where
         T: Display,
@@ -49,6 +62,11 @@ impl TurboStream {
         Self::action(element)
     }
 
+    /// Replaces two elements in one response.
+    #[deprecated(
+        since = "0.3.0",
+        note = "use `TurboStream::builder().replace(..)?.replace(..)?.build()`"
+    )]
     pub fn replace_2<T, U>(
         target1: &str,
         item1: T,
@@ -72,6 +90,11 @@ impl TurboStream {
         Self::action_2(element1, element2)
     }
 
+    /// Replaces three elements in one response.
+    #[deprecated(
+        since = "0.3.0",
+        note = "use `TurboStream::builder().replace(..)?.replace(..)?.replace(..)?.build()`"
+    )]
     pub fn replace_3<T, U, V>(
         target1: &str,
         item1: T,
@@ -103,6 +126,7 @@ impl TurboStream {
         Self::action_3(element1, element2, element3)
     }
 
+    /// Replaces the content of the element with ID `target` with `item`, keeping the element itself.
     pub fn update<T>(target: &str, item: T) -> impl IntoResponse + use<T>
     where
         T: Display,
@@ -115,6 +139,7 @@ impl TurboStream {
         Self::action(element)
     }
 
+    /// Removes the element with ID `target`.
     pub fn remove(target: &str) -> impl IntoResponse + use<> {
         let element = TurboStreamElement::<String> {
             item: None,
@@ -124,6 +149,7 @@ impl TurboStream {
         Self::action(element)
     }
 
+    /// Inserts `item` before the element with ID `target`.
     pub fn before<T>(target: &str, item: T) -> impl IntoResponse + use<T>
     where
         T: Display,
@@ -136,6 +162,7 @@ impl TurboStream {
         Self::action(element)
     }
 
+    /// Inserts `item` after the element with ID `target`.
     pub fn after<T>(target: &str, item: T) -> impl IntoResponse + use<T>
     where
         T: Display,
@@ -148,6 +175,7 @@ impl TurboStream {
         Self::action(element)
     }
 
+    /// Tells Turbo to refresh the current page.
     pub fn refresh() -> impl IntoResponse {
         let element = TurboStreamElement::<String> {
             item: None,
@@ -157,6 +185,9 @@ impl TurboStream {
         Self::action(element)
     }
 
+    /// Sends an `event` action, a custom action that is not built into Turbo.
+    ///
+    /// The page must register a handler for it in `Turbo.StreamActions`.
     pub fn event<T>(target: &str, item: T) -> impl IntoResponse + use<T>
     where
         T: Display,
@@ -169,6 +200,7 @@ impl TurboStream {
         Self::action(element)
     }
 
+    /// Replaces, removes and appends in one response.
     #[deprecated(
         since = "0.3.0",
         note = "use `TurboStream::builder().replace(..)?.remove(..)?.append(..)?.build()`"
@@ -202,6 +234,7 @@ impl TurboStream {
         Self::action_3(element1, element2, element3)
     }
 
+    /// Removes and appends in one response.
     #[deprecated(
         since = "0.3.0",
         note = "use `TurboStream::builder().remove(..)?.append(..)?.build()`"
@@ -227,6 +260,7 @@ impl TurboStream {
         Self::action_2(element1, element2)
     }
 
+    /// Replaces and appends in one response.
     #[deprecated(
         since = "0.3.0",
         note = "use `TurboStream::builder().replace(..)?.append(..)?.build()`"
@@ -254,6 +288,7 @@ impl TurboStream {
         Self::action_2(element1, element2)
     }
 
+    /// Replaces and removes in one response.
     #[deprecated(
         since = "0.3.0",
         note = "use `TurboStream::builder().replace(..)?.remove(..)?.build()`"
@@ -279,6 +314,7 @@ impl TurboStream {
         Self::action_2(element1, element2)
     }
 
+    /// Removes, replaces and appends in one response.
     #[deprecated(
         since = "0.3.0",
         note = "use `TurboStream::builder().remove(..)?.replace(..)?.append(..)?.build()`"
@@ -312,13 +348,15 @@ impl TurboStream {
         Self::action_3(element1, element2, element3)
     }
 
+    /// Responds with one [`TurboStreamElement`].
     pub fn action<T>(element: TurboStreamElement<T>) -> impl IntoResponse
     where
         T: Display,
     {
-        TurboPage::new(element).into_response()
+        TurboStreamResponse::new(element).into_response()
     }
 
+    /// Responds with two [`TurboStreamElement`]s.
     pub fn action_2<T, U>(
         element1: TurboStreamElement<T>,
         element2: TurboStreamElement<U>,
@@ -328,9 +366,10 @@ impl TurboStream {
         U: Display,
     {
         let element = TurboStreamTwoElements { element1, element2 };
-        TurboPage::new(element).into_response()
+        TurboStreamResponse::new(element).into_response()
     }
 
+    /// Responds with three [`TurboStreamElement`]s.
     pub fn action_3<T, U, V>(
         element1: TurboStreamElement<T>,
         element2: TurboStreamElement<U>,
@@ -346,21 +385,28 @@ impl TurboStream {
             element2,
             element3,
         };
-        TurboPage::new(element).into_response()
+        TurboStreamResponse::new(element).into_response()
     }
 }
 
+/// One `<turbo-stream>` element.
+///
+/// The item is wrapped in `<template>`. Both `target` and `item` are left out of the markup when `None`.
 #[derive(Template, WebTemplate)]
 #[template(path = "turbo-stream-element.html")]
 pub struct TurboStreamElement<T>
 where
     T: Display,
 {
+    /// ID of the element the action applies to.
     pub target: Option<String>,
+    /// The Turbo Stream action.
     pub action: TurboStreamAction,
+    /// Content for the action, inserted without HTML escaping.
     pub item: Option<T>,
 }
 
+/// Two `<turbo-stream>` elements rendered one after the other.
 #[derive(Template, WebTemplate)]
 #[template(path = "turbo-stream-two-elements.html")]
 pub struct TurboStreamTwoElements<T, U>
@@ -368,10 +414,13 @@ where
     T: Display,
     U: Display,
 {
+    /// Element 1.
     pub element1: TurboStreamElement<T>,
+    /// Element 2.
     pub element2: TurboStreamElement<U>,
 }
 
+/// Three `<turbo-stream>` elements rendered one after the other.
 #[derive(Template, WebTemplate)]
 #[template(path = "turbo-stream-three-elements.html")]
 pub struct TurboStreamThreeElements<T, U, V>
@@ -380,21 +429,34 @@ where
     U: Display,
     V: Display,
 {
+    /// Element 1.
     pub element1: TurboStreamElement<T>,
+    /// Element 2.
     pub element2: TurboStreamElement<U>,
+    /// Element 3.
     pub element3: TurboStreamElement<V>,
 }
 
+/// A Turbo Stream action. [`Display`] gives the name used in the `action` attribute, e.g. `append`.
 #[derive(Debug)]
 pub enum TurboStreamAction {
+    /// Append to the target's content.
     Append,
+    /// Prepend to the target's content.
     Prepend,
+    /// Replace the target's content.
     Update,
+    /// Replace the target element.
     Replace,
+    /// Remove the target element.
     Remove,
+    /// Insert before the target element.
     Before,
+    /// Insert after the target element.
     After,
+    /// Refresh the current page.
     Refresh,
+    /// Custom `event` action, handled by the page.
     Event,
 }
 
