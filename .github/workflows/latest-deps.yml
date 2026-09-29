@@ -1,0 +1,22 @@
+name: Latest dependencies
+
+# CI builds with the committed Cargo.lock. This job updates dependencies to their
+# latest versions first, to catch new releases that break the crate.
+on:
+  schedule:
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+env:
+  CARGO_TERM_COLOR: always
+  # Allow versions newer than rust-version supports; the MSRV job in ci.yml covers 1.88
+  CARGO_RESOLVER_INCOMPATIBLE_RUST_VERSIONS: allow
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: dtolnay/rust-toolchain@stable
+      - run: cargo update --verbose
+      - run: cargo test
