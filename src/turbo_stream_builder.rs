@@ -150,7 +150,7 @@ impl TurboStreamBuilder {
         Ok(self)
     }
 
-    pub fn build(&self) -> impl IntoResponse {
+    pub fn build(&self) -> impl IntoResponse + use<> {
         let html = self.elements.join("\n");
         TurboPage::new(html).into_response()
     }
